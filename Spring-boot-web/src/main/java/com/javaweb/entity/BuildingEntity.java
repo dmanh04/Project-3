@@ -47,7 +47,7 @@ public class BuildingEntity {
 
 
     @Column(name="direction")
-    private Long direction;//
+    private String direction;//
 
     @Column(name="level")
     private String level;//
