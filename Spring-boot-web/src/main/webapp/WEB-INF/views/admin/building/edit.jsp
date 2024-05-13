@@ -230,6 +230,21 @@
                                 <form:checkboxes  path="typeCode" items="${typeCodes}"></form:checkboxes>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-3 no-padding-right">Hình đại diện</label>
+                                <input class="col-sm-3 no-padding-right" type="file" id="uploadImage"/>
+                                <div class="col-sm-9">
+                                    <c:if test="${not empty buildingEdit.image}">
+                                        <c:set var="imagePath" value="/repository${buildingEdit.image}"/>
+                                        <img src="${imagePath}" id="viewImage" width="300px" height="300px" style="margin-top: 50px">
+                                    </c:if>
+                                    <c:if test="${empty buildingEdit.image}">
+                                        <img src="../admin/assets/images/default-user.png" id="viewImage" width="300px" height="300px">
+                                    </c:if>
+                                </div>
+                            </div>
+
+
 
                             <div class="col-xs-12">
                                 <h3 class="header smaller lighter blue">
@@ -251,6 +266,8 @@
                                 <a href="/admin/building-list" class="btn btn-primary">
                                     Hủy thao tác
                                 </a>
+
+                                <img src="/img/loading.gif" style="display: none; height: 100px" id="loading_image">
                             </div>
 
                         </form>
@@ -273,6 +290,10 @@
 
 
 <script>
+
+    var imageBase64 = '';
+    var imageName = '';
+
     $('#btnAddOrUpdateBuilding').click(function() {
         var data = {};
         var typeCode = [];
@@ -280,6 +301,10 @@
         var formData = $('#form-edit').serializeArray();
         $.each(formData, function(i, it){
             console.log(it);
+            if ('' !== imageBase64) {
+                data['imageBase64'] = imageBase64;
+                data['imageName'] = imageName;
+            }
             if(it.name != 'typeCode'){
                 data["" + it.name + ""] = it.value;
             }
@@ -287,6 +312,8 @@
                 typeCode.push(it.value);
             }
         });
+
+        $('#loading_image').show();
         data['typeCode'] = typeCode;
         if(typeCode.length == 0){
             alert("Loại tòa nhà không được thiếu");
@@ -298,6 +325,8 @@
             data['id'] = buildingId;
             btnAddOrUpdate(data);
         }
+
+
     });
     function btnAddOrUpdate(data){
         $.ajax({
@@ -306,15 +335,58 @@
             data: JSON.stringify(data),
             contentType: "application/json",
             dataType: "text",
-            success: (response) => {
-                alert(response);
+            success: function (res) {
+                $('#loading_image').hide();
                 window.location.replace("/admin/building-list");
             },
-            error:function(response){
-                console.log("failed");
-                console.log(response);
+            error: function () {
+                $('#loading_image').hide();
+                window.location.replace("/admin/building-list");
             }
         })
+    }
+
+    $('#uploadImage').change(function (event) {
+        var reader = new FileReader();
+        console.log($(this));
+        var file = $(this)[0].files[0];
+        reader.onload = function(e){
+            console.log(e);
+            imageBase64 = e.target.result;
+            imageName = file.name; // ten hinh khong dau, khoang cach. vd: a-b-c
+        };
+        reader.readAsDataURL(file);
+        openImage(this, "viewImage");
+    });
+
+    function openImage(input, imageView) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' +imageView).attr('src', reader.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function showMessageConfirmation(title, message, type, redirectUrl) {
+        var statusBtn = ('success' === type) ? 'success' : 'danger';
+
+        swal({
+            title: title,
+            text: message,
+            type: type,
+            showConfirmButton: true,
+            confirmButtonText: "Xác nhận",
+            confirmButtonClass: "btn btn-" + statusBtn,
+            allowOutsideClick: true
+        }).then(function(res) {
+            if (res.value) {
+                if ("" !== redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        });
     }
 
 </script>

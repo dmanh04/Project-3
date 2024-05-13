@@ -43,6 +43,7 @@ public class BuildingEntityConverter {
             String type = filter.toTypeCodeString(buildingDTO.getTypeCode());
             buildingEntity.setType(type);
             String rentArea = buildingDTO.getRentArea();
+            buildingEntity.setAvatar(buildingDTO.getImageName());
             String[] list = rentArea.trim().split(",");
             List<Long> rentAreaValue = new ArrayList<>();//100,200     200 300 400         200 300 400
             for(String item : list) {
@@ -69,6 +70,7 @@ public class BuildingEntityConverter {
         buildingDTO.setTypeCode(typeCode);
         String rentArea = filter.toRentAreaString(buildingEntity.getRentAreas());
         buildingDTO.setRentArea(rentArea);
+        buildingDTO.setImage(buildingEntity.getAvatar());
         return buildingDTO;
     }
 }

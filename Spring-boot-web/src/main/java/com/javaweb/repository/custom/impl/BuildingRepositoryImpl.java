@@ -4,13 +4,13 @@ import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
 import com.javaweb.utils.StringUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -101,7 +101,7 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
     }
 
     @Override
-    public List<BuildingEntity> searchBuilding(BuildingSearchBuilder builder) {
+    public List<BuildingEntity> searchBuilding(BuildingSearchBuilder builder, Pageable pageable) {
         StringBuilder sql = new StringBuilder("SELECT  b.id, b.name, b.street, b.ward, b.district, "
     + " b.servicefee, b.structure, b.direction, b.level, b.carfee, b.motofee,"
      + " b.overtimefee, b.waterfee, b.electricityfee, "
@@ -118,8 +118,36 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         queryWhereSpecial(builder, where);
         sql.append(where);
         sql.append(" group by b.id");
+        int pageNumber = pageable.getPageNumber(); // Số trang
+        int pageSize = pageable.getPageSize(); // Kích thước trang
+        // Tính toán OFFSET dựa trên số trang và kích thước trang
+        int offset = pageNumber * pageSize;
+
+        sql.append(" LIMIT " + pageSize + " OFFSET " + offset);
         Query query = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
         return query.getResultList();
+    }
+
+    @Override
+    public int countBuilding(BuildingSearchBuilder builder) {
+        StringBuilder sql = new StringBuilder("SELECT  b.id, b.name, b.street, b.ward, b.district, "
+                + " b.servicefee, b.structure, b.direction, b.level, b.carfee, b.motofee,"
+                + " b.overtimefee, b.waterfee, b.electricityfee, "
+                + " b.deposit, b.payment, b.renttime, b.decorationtime, "
+                + " b.brokeragefee, b.type, b.note, "
+                + " b.linkofbuilding, b.map, b.avatar, b.createdDate, "
+                + " b.modifieDdate, b.createdby, b.modifiedby,"
+                + " b.numberofbasement, b.floorarea, b.rentprice, "
+                + " b.rentpricedescription, b.managername, b.managerphone" + " FROM building b");
+        StringBuilder join = new StringBuilder();
+        StringBuilder where = new StringBuilder(" WHERE 1 = 1");
+        queryJoin(builder, sql);
+        queryWhereNormal(builder, where);
+        queryWhereSpecial(builder, where);
+        sql.append(where);
+        sql.append(" group by b.id");
+        Query query = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
+        return query.getResultList().size();
     }
 
 }
