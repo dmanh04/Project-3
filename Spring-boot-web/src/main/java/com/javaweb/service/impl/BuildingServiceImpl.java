@@ -4,11 +4,14 @@ import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.converter.BuildingEntityConverter;
 import com.javaweb.converter.BuildingSearchBuilderConverter;
 import com.javaweb.entity.BuildingEntity;
+import com.javaweb.entity.UserEntity;
+import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.RentAreaRepository;
+import com.javaweb.repository.UserRepository;
 import com.javaweb.service.IBuildingService;
 import com.javaweb.utils.UploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,9 @@ public class BuildingServiceImpl implements IBuildingService {
 
     @Autowired
     private RentAreaRepository rentAreaRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UploadFileUtils uploadFileUtils;
@@ -68,8 +74,16 @@ public class BuildingServiceImpl implements IBuildingService {
     @Override
     @Transactional
     public void deleteBuilding(List<Long> ids) {
-        buildingRepository.deleteBuildingEntityByIdIn(ids);
+        buildingRepository.deleteAllByIdIn(ids);
         System.out.println("remove success");
+    }
+
+    @Override
+    public void updateAssigmentBuilding(AssignmentBuildingDTO assignmentBuildingDTO) {
+        BuildingEntity buildingEntity = buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get();
+        List<UserEntity> list = userRepository.findByIdIn(assignmentBuildingDTO.getStaffs());
+        buildingEntity.setUsers(list);
+        buildingRepository.save(buildingEntity);
     }
 
     @Override

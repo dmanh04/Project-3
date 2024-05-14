@@ -36,7 +36,7 @@ public class UserEntity extends BaseEntity {
     private List<RoleEntity> roles = new ArrayList<>();
 
 
-    @ManyToMany(mappedBy = "users",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "users",fetch = FetchType.LAZY)
     private List<BuildingEntity> buildings = new ArrayList<>();
 
 

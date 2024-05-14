@@ -2,6 +2,7 @@ package com.javaweb.api.admin;
 
 
 
+import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.IBuildingService;
@@ -34,11 +35,11 @@ public class BuildingApi {
         return responseDTO;
     }
 
-////    @PutMapping
-////    public void updateAssigmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO) {
-//////        iAssignmentBuildingService.updateAssigmentBuilding(assignmentBuildingDTO);
-////    }
-//
+    @PutMapping
+    public void updateAssigmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO) {
+        iBuildingService.updateAssigmentBuilding(assignmentBuildingDTO);
+    }
+
     @DeleteMapping("/{ids}")
     public String deleteBuilding(@PathVariable List<Long> ids) {
 

@@ -9,5 +9,5 @@ import java.util.List;
 public interface BuildingRepository extends JpaRepository<BuildingEntity, Long> , BuildingRepositoryCustom {
 
 
-    void deleteBuildingEntityByIdIn(List<Long> ids);
+    void deleteAllByIdIn(List<Long> ids);
 }

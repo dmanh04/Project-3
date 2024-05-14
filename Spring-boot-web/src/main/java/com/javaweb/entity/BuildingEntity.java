@@ -131,7 +131,7 @@ public class BuildingEntity {
 //    @OneToMany(mappedBy = "building")
 //    private List<AssignmentBuildingEntity> assignmentBuildings = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "assignmentbuilding",
             joinColumns = @JoinColumn(name = "buildingid", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "staffid", nullable = false))
