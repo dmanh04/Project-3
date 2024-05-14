@@ -20,7 +20,7 @@ public class RentAreaEntity {
     @Column(name="value")
     private Long value;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "buildingid")
     private BuildingEntity building;
 

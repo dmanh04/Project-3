@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface RentAreaRepository extends JpaRepository<RentAreaEntity, Long> {
 
-    void deleteByBuilding_IdIn(List<Long> buildingIds);
-
-    void deleteAllByBuilding(BuildingEntity building);
+    void deleteAllByBuildingId_In(Long buildingId);
 
 }

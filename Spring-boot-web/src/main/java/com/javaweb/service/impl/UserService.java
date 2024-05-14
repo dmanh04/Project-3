@@ -191,7 +191,7 @@ public class UserService implements IUserService {
     @Override
     public ResponseDTO listStaff(Long buildingId) {
         List<UserEntity> userEntities = userRepository.findByStatusAndRoles_Code(1, "STAFF");
-        List<UserEntity> userEntitiesStaff = userRepository.findByAssignmentBuildingEntities_Building_Id(buildingId);
+        List<UserEntity> userEntitiesStaff = userRepository.findByBuildings_Id(buildingId);
         List<StaffResponseDTO> staffResponseDTOs = new ArrayList<>();
         for (UserEntity userEntity : userEntities) {
             StaffResponseDTO staffResponseDTO = userConverter.convertToStaffResponseDTO(userEntity);

@@ -125,9 +125,15 @@ public class BuildingEntity {
     private String managerPhone;//
 
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RentAreaEntity> rentAreas = new ArrayList<>();
 
-    @OneToMany(mappedBy = "building")
-    private List<AssignmentBuildingEntity> assignmentBuildings = new ArrayList<>();
+//    @OneToMany(mappedBy = "building")
+//    private List<AssignmentBuildingEntity> assignmentBuildings = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "assignmentbuilding",
+            joinColumns = @JoinColumn(name = "buildingid", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "staffid", nullable = false))
+    private List<UserEntity> users = new ArrayList<>();
 }

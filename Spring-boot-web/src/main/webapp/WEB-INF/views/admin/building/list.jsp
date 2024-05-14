@@ -356,7 +356,7 @@
     $('#btnDeleteBuildings').click(function(e){
         e.preventDefault();
         var data = {};
-        var buildingIds = $('#buildingList').find('tbody input[type = checkbox]:checked').map(function(){
+        var buildingIds = $('#tableList').find('tbody input[type = checkbox]:checked').map(function(){
             return $(this).val();
         }).get();
         data['buildingIds'] = buildingIds;
