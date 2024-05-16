@@ -318,13 +318,16 @@
         if(typeCode.length == 0){
             alert("Loại tòa nhà không được thiếu");
         }
-        if(typeof buildingId === "undefined" ){
-            btnAddOrUpdate(data);
-        }
         else{
-            data['id'] = buildingId;
-            btnAddOrUpdate(data);
+            if(typeof buildingId === "undefined" ){
+                btnAddOrUpdate(data);
+            }
+            else{
+                data['id'] = buildingId;
+                btnAddOrUpdate(data);
+            }
         }
+
 
 
     });
@@ -337,10 +340,12 @@
             dataType: "text",
             success: function (res) {
                 $('#loading_image').hide();
+                alert("Add or Update Building successful")
                 window.location.replace("/admin/building-list");
             },
             error: function () {
                 $('#loading_image').hide();
+                alert("Add or Update Building successful")
                 window.location.replace("/admin/building-list");
             }
         })

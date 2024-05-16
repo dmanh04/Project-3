@@ -90,9 +90,17 @@ public class BuildingServiceImpl implements IBuildingService {
     @Transactional
     public String insertBuilding(BuildingDTO buildingDTO) {
         BuildingEntity buildingEntityEntity = buildingEntityConverter.toBuildingEntity(buildingDTO);
-        saveThumbnail(buildingDTO, buildingEntityEntity);
+        if(buildingDTO.getImageName() != null) {
+            saveThumbnail(buildingDTO, buildingEntityEntity);
+        }
+        else{
+            BuildingEntity buildingEntityEntity2 = buildingRepository.findById(buildingEntityEntity.getId()).get();
+            buildingEntityEntity.setAvatar(buildingEntityEntity2.getAvatar());
+        }
         if(buildingEntityEntity.getId() != null) {
             rentAreaRepository.deleteAllByBuildingId_In(buildingEntityEntity.getId());
+            List<UserEntity> list = userRepository.findByBuildings_Id(buildingEntityEntity.getId());
+            buildingEntityEntity.setUsers(list);
         }
         buildingRepository.save(buildingEntityEntity);
         return "add success";
