@@ -27,11 +27,14 @@ public class Filter {
     }
 
     public List<String> toTypeCodeList(String type){
-        String[] list = type.trim().split(",");
-        List<String> typeCode = new ArrayList<>();
-        for(String item : list) {
-            typeCode.add(item);
+        if(type != null){
+            String[] list = type.trim().split(",");
+            List<String> typeCode = new ArrayList<>();
+            for(String item : list) {
+                typeCode.add(item);
+            }
+            return typeCode;
         }
-        return typeCode;
+        return null;
     }
 }
