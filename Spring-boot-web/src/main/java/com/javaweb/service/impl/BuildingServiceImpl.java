@@ -38,9 +38,6 @@ public class BuildingServiceImpl implements IBuildingService {
     private BuildingEntityConverter buildingEntityConverter;
 
     @Autowired
-    private RentAreaRepository rentAreaRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -90,16 +87,21 @@ public class BuildingServiceImpl implements IBuildingService {
     @Transactional
     public String insertBuilding(BuildingDTO buildingDTO) {
         BuildingEntity buildingEntityEntity = buildingEntityConverter.toBuildingEntity(buildingDTO);
-        if(buildingDTO.getImageName() != null) {
-            saveThumbnail(buildingDTO, buildingEntityEntity);
-        }
-        else{
-            BuildingEntity buildingEntityEntity2 = buildingRepository.findById(buildingEntityEntity.getId()).get();
-            buildingEntityEntity.setAvatar(buildingEntityEntity2.getAvatar());
-        }
+//        if(buildingDTO.getImageName() != null) {
+//            saveThumbnail(buildingDTO, buildingEntityEntity);
+//        }
+//        else{
+//            BuildingEntity buildingEntityEntity2 = buildingRepository.findById(buildingEntityEntity.getId()).get();
+//            buildingEntityEntity.setAvatar(buildingEntityEntity2.getAvatar());
+//        }
         if(buildingEntityEntity.getId() != null) {
             List<UserEntity> list = userRepository.findByBuildings_Id(buildingEntityEntity.getId());
             buildingEntityEntity.setUsers(list);
+            BuildingEntity buildingEntityEntity2 = buildingRepository.findById(buildingEntityEntity.getId()).get();
+            buildingEntityEntity.setAvatar(buildingEntityEntity2.getAvatar());
+        }
+        else{
+            saveThumbnail(buildingDTO, buildingEntityEntity);
         }
         buildingRepository.save(buildingEntityEntity);
         return "add success";
