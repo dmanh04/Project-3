@@ -125,7 +125,7 @@ public class BuildingEntity {
     private String managerPhone;//
 
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<RentAreaEntity> rentAreas = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "building")

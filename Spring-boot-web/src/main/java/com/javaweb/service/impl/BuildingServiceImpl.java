@@ -98,7 +98,6 @@ public class BuildingServiceImpl implements IBuildingService {
             buildingEntityEntity.setAvatar(buildingEntityEntity2.getAvatar());
         }
         if(buildingEntityEntity.getId() != null) {
-            rentAreaRepository.deleteAllByBuildingId_In(buildingEntityEntity.getId());
             List<UserEntity> list = userRepository.findByBuildings_Id(buildingEntityEntity.getId());
             buildingEntityEntity.setUsers(list);
         }
