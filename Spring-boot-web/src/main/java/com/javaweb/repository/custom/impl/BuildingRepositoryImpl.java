@@ -74,12 +74,20 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         Long staffId = builder.getStaffId();
         Long rentPriceFrom = builder.getRentPriceFrom();
         Long rentPriceTo = builder.getRentPriceTo();
-        List<String> typeCodes = builder.getTypeCode();
-        if(typeCodes != null && !typeCodes.isEmpty()){
-            String typeCode = typeCodes.stream().
-                    map(item -> item)
-                    .collect(Collectors.joining(","));
-                where.append(" AND b.type like '%" + typeCode + "%'");
+//        List<String> typeCodes = builder.getTypeCode();
+//        if(typeCodes != null && !typeCodes.isEmpty()){
+//            String typeCode = typeCodes.stream().
+//                    map(item -> item)
+//                    .collect(Collectors.joining(","));
+//                where.append(" AND b.type like '%" + typeCode + "%'");
+//        }
+
+        List<String> typeCode = builder.getTypeCode();
+        if (typeCode != null && !typeCode.isEmpty()) {
+            where.append(" AND (");
+            String sqlJoin = typeCode.stream().map(item -> " b.type LIKE '%" + item + "%'")
+                    .collect(Collectors.joining(" OR "));
+            where.append(sqlJoin + ") ");
         }
         if (areaFrom != null) {
             where.append(" AND ra.value >= " + areaFrom);
