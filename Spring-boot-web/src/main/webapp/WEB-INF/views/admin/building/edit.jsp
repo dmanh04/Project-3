@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: ASUS
@@ -259,8 +260,10 @@
                                 </c:if>
 
                                 <c:if test="${ not empty buildingEdit.id}">
-                                    <button type="button" class="btn btn-primary btn-warning" id="btnAddOrUpdateBuilding">Cập nhật</button>
-                                    <input type="hidden" id="builidingIdTest" value="${buildingEdit.id}">
+                                    <security:authorize access="hasRole('MANAGER')">
+                                        <button type="button" class="btn btn-primary btn-warning" id="btnAddOrUpdateBuilding">Cập nhật</button>
+                                        <input type="hidden" id="builidingIdTest" value="${buildingEdit.id}">
+                                    </security:authorize>
                                 </c:if>
 
                                 <a href="/admin/building-list" class="btn btn-primary">

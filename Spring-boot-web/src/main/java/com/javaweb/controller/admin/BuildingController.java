@@ -8,6 +8,7 @@ import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.dto.UserDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.IBuildingService;
 import com.javaweb.service.IUserService;
 import com.javaweb.utils.DisplayTagUtils;
@@ -36,10 +37,19 @@ public class BuildingController {
     public ModelAndView buildingList(@ModelAttribute("modelSearch")BuildingSearchRequest buildingSearchRequest, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/list");
         DisplayTagUtils.of(request, buildingSearchRequest);
-        List<BuildingSearchResponse> result = iBuildingService.searchBuilding(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        List<BuildingSearchResponse> result = new ArrayList<>();
         mav.addObject("staffs", iUserService.getStaffs());
         mav.addObject("districtCode", DistrictCode.district());
         mav.addObject("typeCodes", TypeCode.getTypeCode());
+        if(SecurityUtils.getAuthorities().contains("ROLE_STAFF")){
+            Long staffId = SecurityUtils.getPrincipal().getId();
+            buildingSearchRequest.setStaffId(staffId);
+            result = iBuildingService.searchBuilding(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        }
+        else{
+            result = iBuildingService.searchBuilding(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        }
+
         buildingSearchRequest.setListResult(result);
         buildingSearchRequest.setTotalItems(iBuildingService.countTotalItems(buildingSearchRequest));
         mav.addObject("buildings", result);

@@ -63,10 +63,12 @@
 </ul>
     <ul class="nav nav-list">
         <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fas fa-users"></i>
-                <span class="menu-text">Quản Lý Tài Khoản</span>
-            </a>
+            <security:authorize access="hasRole('MANAGER')">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fas fa-users"></i>
+                    <span class="menu-text">Quản Lý Tài Khoản</span>
+                </a>
+            </security:authorize>
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="">

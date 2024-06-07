@@ -1,16 +1,13 @@
 package com.javaweb.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="rentarea")
-@Getter
-@Setter
-@NoArgsConstructor
+
 public class RentAreaEntity {
 
     @Id
@@ -24,4 +21,27 @@ public class RentAreaEntity {
     @JoinColumn(name = "buildingid")
     private BuildingEntity building;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getValue() {
+        return value;
+    }
+
+    public void setValue(Long value) {
+        this.value = value;
+    }
+
+    public BuildingEntity getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(BuildingEntity building) {
+        this.building = building;
+    }
 }
