@@ -55,119 +55,48 @@
 
                         <div class="widget-body">
                             <div class="widget-main">
-                                <form:form action="/admin/building-list" modelAttribute="modelSearch" method="GET" id="listForm" >
+                                <form:form  modelAttribute="customerDTO" method="GET" id="listForm" >
                                     <div class="row">
-                                        <div class="col-xs-6">
-                                            <label >Tên tòa nhà</label> <br>
+                                        <div class="col-xs-4">
+                                            <label >Tên khách hàng</label> <br>
                                             <div class="form-group">
-                                                <form:input path="name" class="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-6">
-                                            <label>Diện tích sàn</label>
-                                            <div class="form-group">
-                                                <form:input path="floorArea" class="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <label>Quận</label>
-                                            <div class="form-group">
-                                                <form:select path="district" class="form-control">
-                                                    <form:option value="" label="Chọn quận"></form:option>
-                                                    <form:options items="${districtCode}"></form:options>
-                                                </form:select>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-5">
-                                            <label>Phường</label>
-                                            <div class="form-group">
-                                                <form:input path="ward" class="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-5">
-                                            <label>Đường</label>
-                                            <div class="form-group">
-                                                <form:input path="street" class="form-control"/>
+                                                <form:input path="fullname" class="form-control"/>
                                             </div>
                                         </div>
                                         <div class="col-xs-4">
-                                            <label >Số tầng hầm</label>
+                                            <label>Di động</label>
                                             <div class="form-group">
-                                                <form:input path="numberOfBasement" class="form-control"/>
+                                                <form:input path="phone" class="form-control"/>
                                             </div>
                                         </div>
                                         <div class="col-xs-4">
-                                            <label>Hướng</label>
+                                            <label>Email</label>
                                             <div class="form-group">
-                                                <form:input path="direction" class="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <label >Hạng</label>
-                                            <div class="form-group">
-                                                <form:input path="level" class="form-control"/>
+                                                <form:input path="email" class="form-control"/>
                                             </div>
                                         </div>
 
+                                        <security:authorize access="hasRole('MANAGER')">
                                         <div class="col-xs-3">
-                                            <label >Diện tích từ</label>
-                                            <div class="form-group">
-                                                <form:input path="areaFrom" class="form-control"/>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-xs-3">
-                                            <label >Diện tích đến</label>
-                                            <div class="form-group">
-                                                <form:input path="areaTo" class="form-control"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-3">
-                                            <label>Giá thuê từ</label>
-                                            <div class="form-group">
-                                                <form:input path="rentPriceFrom" class="form-control"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-3">
-                                            <label >Giá thuê đến</label>
-                                            <div class="form-group">
-                                                <form:input path="rentPriceTo" class="form-control"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-4">
-                                            <label >Tên quản lý</label>
-                                            <div class="form-group">
-                                                <form:input path="managerName" class="form-control"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-4">
-                                            <label>Số điện thoại quản lí</label>
-                                            <div class="form-group">
-                                                <form:input path="managerPhone" class="form-control"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-3">
-                                            <security:authorize access="hasRole('MANAGER')">
                                                 <label>Nhân viên quản lý</label>
                                                 <div class="form-group">
-                                                    <form:select path="staffId">
-                                                        <form:option value="" label="---Chon nhan vien---"></form:option>
-                                                        <form:options items="${staffs}"></form:options>
+                                                    <form:select path="staffId" class="form-control">
+                                                        <form:option value="" label="---Chon nhan vien---"/>
+                                                        <form:options items="${staffs}"/>
                                                     </form:select>
                                                 </div>
-                                            </security:authorize>
+
                                         </div>
-
-                                        <div class="col-xs-6">
-
-                                            <div class="form-group">
-                                                <form:checkboxes path="typeCode" items="${typeCodes}"></form:checkboxes>
-                                            </div>
+                                        </security:authorize>
+                                        <div class="col-xs-3">
+                                                <label>Trạng thái</label>
+                                                <div class="form-group">
+                                                    <form:select path="status" class="form-control">
+                                                        <form:option value="" label="---Chon trạng thái---"/>
+                                                        <form:options items="${status}"/>
+                                                    </form:select>
+                                                </div>
                                         </div>
                                         <div class="col-xs-12">
                                             <div class="col-xs-6">
@@ -185,7 +114,7 @@
 
                     <security:authorize access="hasRole('MANAGER')">
                         <div class="inner-button text-right">
-                            <a href="/admin/building-edit">
+                            <a href="/admin/customer-edit">
                                 <button title="Thêm tòa nhà" class="btn btn-sm btn-primary">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
                                         <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
@@ -193,7 +122,7 @@
                                     </svg>
                                 </button>
                             </a>
-                            <button title="Xóa tòa nhà" class="btn btn-sm btn-danger" id="btnDeleteBuildings">
+                            <button title="Xóa tòa nhà" class="btn btn-sm btn-danger" id="btnDeleteCustomers">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building-dash" viewBox="0 0 16 16">
                                     <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1"/>
                                     <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
@@ -201,7 +130,7 @@
                                 </svg>
                             </button>
                         </div>
-                     </security:authorize>
+                    </security:authorize>
 
 
                     <h3 class="header smaller lighter blue">
@@ -211,10 +140,10 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="table-responsive">
-                                <display:table name="modelSearch.listResult"   cellspacing="0" cellpadding="0"
-                                               requestURI="/admin/building-list" partialList="true" sort="external"
-                                               size="${modelSearch.totalItems}" defaultsort="2" defaultorder="ascending"
-                                               id="tableList" pagesize="${modelSearch.maxPageItems}"
+                                <display:table name="customerDTO.listResult"   cellspacing="0" cellpadding="0"
+                                               requestURI="/admin/customer-list" partialList="true" sort="external"
+                                               size="${customerDTO.totalItems}" defaultsort="2" defaultorder="ascending"
+                                               id="tableList" pagesize="${customerDTO.maxPageItems}"
                                                export="false"
                                                class="table table-fcv-ace table-striped table-bordered table-hover dataTable no-footer"
                                                style="margin: 3em 0 1.5em;">
@@ -227,31 +156,29 @@
                                                    id="checkbox_${tableList.id}" class="check-box-element"/>
                                         </fieldset>
                                     </display:column>
-                                    <display:column headerClass="text-left" property="createdDate" title="Ngày"/>
-                                    <display:column headerClass="text-left" property="name" title="Tên"/>
-                                    <display:column headerClass="text-left" property="address" title="Địa chỉ"/>
-                                    <display:column headerClass="text-left" property="numberOfBasement" title="Số tầng hầm"/>
-                                    <display:column headerClass="text-left" property="managerName" title="Tên quản lí"/>
-                                    <display:column headerClass="text-left" property="managerPhone" title="Số điện thoại"/>
-                                    <display:column headerClass="text-left" property="floorArea" title="D.T sàn"/>
-                                    <display:column headerClass="text-left" property="rentArea" title="D.T thuê"/>
-                                    <display:column headerClass="text-left" property="emptyArea" title="D.T trống"/>
-                                    <display:column headerClass="text-left" property="rentPrice" title="Giá thuê"/>
-                                    <display:column headerClass="text-left" property="serviceFee" title="Phí dịch vụ"/>
+                                    <display:column headerClass="text-left" property="fullName" title="Tên khách hàng"/>
+                                    <display:column headerClass="text-left" property="phone" title="Di động"/>
+                                    <display:column headerClass="text-left" property="email" title="Email"/>
+                                    <display:column headerClass="text-left" property="demand" title="Nhu cầu"/>
+                                    <display:column headerClass="text-left" property="createdBy" title="Người thêm"/>
+                                    <display:column headerClass="text-left" property="createdDate" title="Ngày thêm"/>
+                                    <display:column headerClass="text-left" property="status" title="Tình trạng"/>
+
+                                    <
                                     <display:column headerClass="col-actions" title="Thao tác">
                                         <div>
                                             <security:authorize access="hasRole('MANAGER')">
-                                                <button class="btn btn-sm btn-success" title="Giao tòa nhà" onclick="assignmentBuilding(${tableList.id})">
+                                                <button class="btn btn-sm btn-success" title="Giao tòa nhà" onclick="assignmentCustomer(${tableList.id})">
                                                     <i class="icon-only ace-icon fa fa-align-justify"></i>
                                                 </button>
                                             </security:authorize>
-                                            <a href="/admin/building-edit-${tableList.id}">
-                                                <button class="btn btn-sm btn-info" title="Sửa tòa nhà">
+                                            <a href="/admin/customer-edit-${tableList.id}">
+                                                <button class="btn btn-sm btn-info" title="Sửa khách hàng">
                                                     <i class="ace-icon fa fa-pencil-square-o"></i>
                                                 </button>
                                             </a>
                                             <security:authorize access="hasRole('MANAGER')">
-                                                <button class="btn btn-sm btn-danger" title="Xóa tòa nhà" onclick="removeBuilding(${tableList.id})">
+                                                <button class="btn btn-sm btn-danger" title="Xóa tòa nhà" onclick="removeCustomer(${tableList.id})">
                                                     <i class="ace-icon fa fa-trash-o"></i>
                                                 </button>
                                             </security:authorize>
@@ -270,7 +197,7 @@
 </div><!-- /.main-content -->
 
 
-<div class="modal fade" id="assignmentBuildingModal"  role="dialog">
+<div class="modal fade" id="assignmentCustomerModal"  role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -293,10 +220,10 @@
                     </tbody>
 
                 </table>
-                <input type="hidden" id="buildingId" name="buildingId" value="">
+                <input type="hidden" id="customerId" name="customerId" value="">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnAssignmentBuilding">Giao tòa nhà</button>
+                <button type="button" class="btn btn-primary" id="btnAssignmentCustomer">Giao khách hàng</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
             </div>
@@ -305,16 +232,22 @@
 </div>
 
 <script>
-    function assignmentBuilding(buildingId){
-        $('#assignmentBuildingModal').modal();
-        $('#buildingId').val(buildingId);
-        loadStaffs(buildingId);
+
+    $('#btnSearch').click(function (e){
+        e.preventDefault();
+        $('#listForm').submit();
+    })
+
+    function assignmentCustomer(customerId){
+        $('#assignmentCustomerModal').modal();
+        $('#customerId').val(customerId);
+        loadStaffs(customerId);
     }
 
-    function loadStaffs(buildingId){
+    function loadStaffs(customerId){
         $.ajax({
             type: "GET",
-            url: "/api/buildings/" + buildingId + "/staffs",
+            url: "/api/customers/" + customerId + "/staffs",
             dataType: "json",
             success: function(response){
                 var row = "";
@@ -335,21 +268,21 @@
         });
     }
 
-    $('#btnAssignmentBuilding').click(function(e){
+    $('#btnAssignmentCustomer').click(function(e){
         e.preventDefault();
         var data = {};
-        data['buildingId'] = $('#buildingId').val();
+        data['customerId'] = $('#customerId').val();
         var staffs = $('#staffList').find('tbody input[type = checkbox]:checked').map(function(){
             return $(this).val();
         }).get();
         data['staffs'] = staffs;
         $.ajax({
             type: "PUT",
-            url: "/api/buildings",
+            url: "/api/customers",
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function(response){
-                alert('Giao toa nha thanh cong');
+                alert('Giao khach thanh cong');
             },
             error:function(response){
                 console.log("failed");
@@ -357,32 +290,31 @@
         });
     });
 
-    $('#btnDeleteBuildings').click(function(e){
+    $('#btnDeleteCustomers').click(function(e){
         e.preventDefault();
         var data = {};
-        var buildingIds = $('#tableList').find('tbody input[type = checkbox]:checked').map(function(){
+        var customerIds = $('#tableList').find('tbody input[type = checkbox]:checked').map(function(){
             return $(this).val();
         }).get();
-        data['buildingIds'] = buildingIds;
+        data['customerIds'] = customerIds;
         deleteBuilding(data);
     });
 
-    function removeBuilding(buildingId){
+    function removeCustomer(customerId){
         var data = {};
-        data['buildingIds'] = buildingId;
+        data['customerIds'] = customerId;
         deleteBuilding(data);
     }
 
     function deleteBuilding(data){
         $.ajax({
             type: "DELETE",
-            url: "/api/buildings/" + data['buildingIds'],
+            url: "/api/customers/" + data['customerIds'],
             data: JSON.stringify(data),
             contentType: "application/json",
-            dataType: "text",
             success: function(response){
-                alert(response);
-                window.location.replace("/admin/building-list");
+                alert("success");
+                window.location.replace("/admin/customer-list");
             },
             error: function(response){
                 console.log("failed");
@@ -392,10 +324,6 @@
     }
 
 
-    $('#btnSearch').click(function (e){
-        e.preventDefault();
-        $('#listForm').submit();
-    })
 
     //--------btn-All-click----------
     var btnCheckAll = $('#btnAll');

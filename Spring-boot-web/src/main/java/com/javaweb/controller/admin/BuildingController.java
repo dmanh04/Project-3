@@ -49,7 +49,6 @@ public class BuildingController {
         else{
             result = iBuildingService.searchBuilding(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
         }
-
         buildingSearchRequest.setListResult(result);
         buildingSearchRequest.setTotalItems(iBuildingService.countTotalItems(buildingSearchRequest));
         mav.addObject("buildings", result);
